@@ -1,0 +1,29 @@
+# Aktifkan mod_rewrite
+RewriteEngine On
+
+# Mengizinkan akses ke API dari semua origin
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    Header always set Access-Control-Allow-Credentials "true"
+</IfModule>
+
+# Tangani preflight request (OPTIONS)
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ - [R=200,L]
+</IfModule>
+
+# Routing URL untuk berbagai endpoint
+RewriteRule ^member/?$ member.php [NC,L]
+RewriteRule ^member/([0-9A-Za-z]+)/?$ member.php?id=$1 [NC,L]
+
+RewriteRule ^pustakawan/?$ pustakawan.php [NC,L]
+RewriteRule ^pustakawan/([0-9A-Za-z]+)/?$ pustakawan.php?id=$1 [NC,L]
+
+RewriteRule ^pinjaman/?$ pinjaman.php [NC,L]
+RewriteRule ^pinjaman/([0-9A-Za-z]+)/?$ pinjaman.php?id=$1 [NC,L]
+
+RewriteRule ^buku/?$ buku.php [NC,L]
+RewriteRule ^buku/([0-9A-Za-z]+)/?$ buku.php?id=$1 [NC,L]
