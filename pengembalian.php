@@ -6,17 +6,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-require_once "mpinjaman.php";
+require_once "mpengembalian.php";
 
-$data = new Mpinjaman();
+$data = new Mpengembalian();
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 
 switch ($request_method) {
     case 'GET':
-        if (!empty($_GET["status"])) {
-            $status = $_GET["status"];
-            $data->get_data_by_status($status);
+        if (!empty($_GET["id"])) {
+            $id = $_GET["id"];
+            $data->get_data_by_id($id);
         } else {
             $data->get_data();
         }

@@ -27,3 +27,6 @@ RewriteRule ^pinjaman/([0-9A-Za-z]+)/?$ pinjaman.php?id=$1 [NC,L]
 
 RewriteRule ^buku/?$ buku.php [NC,L]
 RewriteRule ^buku/([0-9A-Za-z]+)/?$ buku.php?id=$1 [NC,L]
+
+RewriteRule ^pengembalian/?$ pengembalian.php [NC,L]
+RewriteRule ^pengembalian/([0-9A-Za-z]+)/?$ pengembalian.php?id=$1 [NC,L]

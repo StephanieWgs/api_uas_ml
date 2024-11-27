@@ -83,7 +83,7 @@ class Mmember
 				nama 	= '$_POST[nama]',
 				alamat 	= '$_POST[alamat]',
                 email = '$_POST[email]',
-				no_hp 	= '$_POST[no_hp]',	
+				no_hp 	= '$_POST[no_hp]'
 				WHERE id_member ='$id'");
         if ($result) {
             $response = array(
