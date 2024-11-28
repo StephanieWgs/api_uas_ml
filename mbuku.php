@@ -58,10 +58,10 @@ class Mbuku
         $last_code = mysqli_fetch_assoc($result_last_code)['kode_buku'];
 
         if ($last_code) {
-            $last_number = (int) substr($last_code, 2); 
+            $last_number = (int) substr($last_code, 2);
             $new_number = $last_number + 1;
         } else {
-            $new_number = 1; 
+            $new_number = 1;
         }
         $kode_buku = 'BU' . str_pad($new_number, 3, '0', STR_PAD_LEFT);
 
@@ -80,7 +80,7 @@ class Mbuku
             $response = array(
                 'status' => 1,
                 'message' => 'Buku berhasil ditambah!',
-                'kode_buku' => $kode_buku 
+                'kode_buku' => $kode_buku
             );
         } else {
             $response = array(
@@ -116,6 +116,54 @@ class Mbuku
             $response = array(
                 'status' => 0,
                 'message' => 'Gagal meng-update data buku...'
+            );
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    function update_stock($id, $action)
+    {
+        global $mysqli;
+        $query = mysqli_query($mysqli, "SELECT stok FROM buku WHERE kode_buku = '$id'");
+        $buku = mysqli_fetch_assoc($query);
+        $stok_sekarang = $buku['stok'];
+
+        if ($action == 'pinjam') {
+            $stok_baru = $stok_sekarang - 1;
+        } elseif ($action == 'kembali') {
+            $stok_baru = $stok_sekarang + 1;
+        } else {
+            $response = array(
+                'status' => 0,
+                'message' => 'Aksi tidak valid.'
+            );
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            return;
+        }
+
+        if ($stok_baru < 0) {
+            $response = array(
+                'status' => 0,
+                'message' => 'Stok buku tidak mencukupi untuk dipinjam.'
+            );
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            return;
+        }
+
+        $result = mysqli_query($mysqli, "UPDATE buku SET stok = '$stok_baru' WHERE kode_buku = '$id'");
+        if ($result) {
+            $response = array(
+                'status' => 1,
+                'message' => 'Stok buku berhasil diperbarui.'
+            );
+        } else {
+            $response = array(
+                'status' => 0,
+                'message' => 'Gagal memperbarui stok buku.'
             );
         }
 

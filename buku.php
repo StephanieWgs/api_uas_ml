@@ -23,10 +23,14 @@ switch ($request_method) {
         break;
     case 'POST':
         if (!empty($_GET["id"])) {
-            $id = $_GET["id"];      // Ambil ID dari query string
-            $data->update_data($id);
+            $id = $_GET["id"];
+            if (!empty($_POST["action"])) {
+                $data->update_stock($id, $_POST["action"]);
+            } else {
+                $data->update_data($id);
+            }
         } else {
-            $data->insert_data();
+            $data->insert_data(); // Tambah data baru
         }
         break;
     case 'DELETE':

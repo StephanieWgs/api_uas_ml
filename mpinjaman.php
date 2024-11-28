@@ -23,17 +23,21 @@ class Mpinjaman
     public function get_data_by_status($status = 0)
     {
         global $mysqli;
+        $data = array();
 
         $query = "SELECT * FROM pinjaman WHERE status = '$status'";
         $result = $mysqli->query($query);
+
         while ($row = mysqli_fetch_object($result)) {
             $data[] = $row;
         }
+
         $response = array(
-            'status'     => 200,
-            'message'     => 'Berhasil mendapatkan data pinjaman!',
-            'data'         => $data
+            'status'  => 200,
+            'message' => 'Berhasil update status  pinjaman!',
+            'data'    => $data
         );
+
         header('Content-Type: application/json');
         echo json_encode($response);
     }
@@ -107,7 +111,7 @@ class Mpinjaman
         global $mysqli;
         $status = isset($_POST['status']) ? $_POST['status'] : null;
 
-        if ($status == "kembali" && $id != 0) {
+        if ($status && $id != 0) {
             $query = "UPDATE pinjaman SET status = '$status' WHERE kode_pinjaman = '$id'";
         } elseif ($id != 0) {
             $query = "UPDATE pinjaman SET
